@@ -1,0 +1,29 @@
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "frontend_bucket" {
+  bucket = "portfolio-frontend-bucket"
+  acl    = "public-read"
+
+  website {
+    index_document = "index.html"
+  }
+}
+
+resource "aws_instance" "backend" {
+  ami           = "ami-0c55b159cbfafe1f0" # Example Amazon Linux 2
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "portfolio-backend"
+  }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              amazon-linux-extras install docker
+              service docker start
+              docker run -d -p 8000:8000 portfolio-app
+              EOF
+}
