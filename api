@@ -1,0 +1,23 @@
+from fastapi import APIRouter
+from src.models.portfolio import Portfolio
+
+router = APIRouter()
+portfolio = Portfolio()
+
+@router.get("/")
+def root():
+    return {"message": "Portfolio API is running 🚀"}
+
+@router.post("/add")
+def add_entry(category: str, content: str):
+    portfolio.add_entry(category, content)
+    return {"status": "Entry added successfully"}
+
+@router.get("/all")
+def get_all_entries():
+    return {"data": portfolio.get_all()}
+
+@router.get("/category/{category}")
+def get_by_category(category: str):
+    data = portfolio.filter_by_category(category)
+    return {"data": data}
