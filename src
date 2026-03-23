@@ -1,0 +1,32 @@
+from fastapi import APIRouter, HTTPException
+from typing import List
+from src.models.portfolio import PortfolioEntry, PortfolioResponse
+
+router = APIRouter()
+
+portfolio_db: List[PortfolioEntry] = []
+
+@router.get("/")
+def root():
+    return {"message": "Portfolio API is running 🚀"}
+
+@router.post("/add", response_model=PortfolioEntry)
+def add_entry(entry: PortfolioEntry):
+    portfolio_db.append(entry)
+    return entry
+
+@router.get("/all", response_model=PortfolioResponse)
+def get_all_entries():
+    return {"data": portfolio_db}
+
+@router.get("/category/{category}", response_model=PortfolioResponse)
+def get_by_category(category: str):
+    filtered = [
+        entry for entry in portfolio_db
+        if entry.category.lower() == category.lower()
+    ]
+
+    if not filtered:
+        raise HTTPException(status_code=404, detail="No entries found")
+
+    return {"data": filtered}
