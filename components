@@ -1,0 +1,23 @@
+import React from "react";
+
+type Props = {
+  category: string;
+  content: string;
+};
+
+const PortfolioItem: React.FC<Props> = ({ category, content }) => {
+  return (
+    <div style={{
+      border: "1px solid #ddd",
+      padding: "12px",
+      borderRadius: "8px",
+      marginBottom: "10px",
+      background: "#fff"
+    }}>
+      <h3 style={{ margin: 0 }}>{category}</h3>
+      <p style={{ margin: "5px 0 0" }}>{content}</p>
+    </div>
+  );
+};
+
+export default PortfolioItem;
