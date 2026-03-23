@@ -1,0 +1,29 @@
+import React from "react";
+import { usePortfolio } from "../store/portfolioStore";
+import PortfolioItem from "../components/PortfolioItem";
+import Loader from "../components/Loader";
+
+const Home = () => {
+  const { data, loading } = usePortfolio();
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>🚀 Portfolio Dashboard</h1>
+
+      {loading && <Loader />}
+
+      {!loading && data.length === 0 && <p>No portfolio data</p>}
+
+      {!loading &&
+        data.map((item, index) => (
+          <PortfolioItem
+            key={index}
+            category={item.category}
+            content={item.content}
+          />
+        ))}
+    </div>
+  );
+};
+
+export default Home;
