@@ -1,0 +1,21 @@
+import asyncio
+from functools import wraps
+
+def section(title):
+    def decorator(func):
+
+        @wraps(func)
+        async def async_wrapper(*args, **kwargs):
+            print(f"\n{title}")
+            print("-" * len(title))
+            return await func(*args, **kwargs)
+
+        @wraps(func)
+        def sync_wrapper(*args, **kwargs):
+            print(f"\n{title}")
+            print("-" * len(title))
+            return func(*args, **kwargs)
+
+        return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+
+    return decorator
