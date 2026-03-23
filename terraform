@@ -24,6 +24,6 @@ resource "aws_instance" "backend" {
               yum update -y
               amazon-linux-extras install docker
               service docker start
-              docker run -d -p 8000:8000 portfolio-app
+              docker run -d -p portfolio-app
               EOF
 }
