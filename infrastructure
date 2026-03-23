@@ -1,0 +1,5 @@
+│── infrastructure/
+│ ├── terraform/
+│ ├── kubernetes/
+│ ├── docker-compose.yml
+│ └── scripts/
