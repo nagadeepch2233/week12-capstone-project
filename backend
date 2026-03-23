@@ -1,11 +1,33 @@
 from datetime import datetime
-from pydantic import BaseModel
 from typing import List
 
-class PortfolioEntry(BaseModel):
-    category: str
-    content: str
-    created_at: datetime = datetime.utcnow()
+class PortfolioEntry:
+    def __init__(self, category: str, content: str):
+        self.category = category
+        self.content = content
+        self.created_at = datetime.utcnow()
 
-class PortfolioResponse(BaseModel):
-    data: List[PortfolioEntry]
+    def to_dict(self):
+        return {
+            "category": self.category,
+            "content": self.content,
+            "created_at": self.created_at.isoformat()
+        }
+
+class Portfolio:
+    def __init__(self):
+        self.entries: List[PortfolioEntry] = []
+
+    def add_entry(self, category: str, content: str):
+        entry = PortfolioEntry(category, content)
+        self.entries.append(entry)
+
+    def get_all(self):
+        return [entry.to_dict() for entry in self.entries]
+
+    def filter_by_category(self, category: str):
+        return [
+            entry.to_dict()
+            for entry in self.entries
+            if entry.category.lower() == category.lower()
+        ]
