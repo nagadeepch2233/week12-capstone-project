@@ -1,0 +1,25 @@
+import pytest
+from src.services.portfolio_service import PortfolioService
+
+def test_add_entry():
+    service = PortfolioService()
+    entry = service.add_entry("SKILL", "Python")
+
+    assert entry.category == "SKILL"
+    assert entry.content == "Python"
+
+def test_get_all():
+    service = PortfolioService()
+    service.add_entry("SKILL", "Python")
+
+    data = service.get_all()
+    assert len(data) == 1
+
+def test_filter_by_category():
+    service = PortfolioService()
+    service.add_entry("SKILL", "Python")
+    service.add_entry("CAREER", "Resume")
+
+    result = service.get_by_category("SKILL")
+    assert len(result) == 1
+    assert result[0].category == "SKILL"
