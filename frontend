@@ -1,0 +1,29 @@
+import React, { useEffect, useState } from "react";
+import { getPortfolio } from "../services/api";
+
+const Home = () => {
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const res = await getPortfolio();
+    setData(res.data);
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>🚀 Portfolio Dashboard</h1>
+
+      {data.map((item, index) => (
+        <div key={index} style={{ marginBottom: "10px" }}>
+          <strong>{item.category}</strong>: {item.content}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Home;
