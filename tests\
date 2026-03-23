@@ -1,0 +1,9 @@
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import PortfolioItem from "../src/components/PortfolioItem";
+
+test("renders portfolio item with category and content", () => {
+  render(<PortfolioItem category="SKILL" content="Python Async" />);
+  expect(screen.getByText("SKILL")).toBeInTheDocument();
+  expect(screen.getByText("Python Async")).toBeInTheDocument();
+});
