@@ -1,0 +1,25 @@
+from typing import List
+from src.models.portfolio import PortfolioEntry
+
+class PortfolioService:
+    def __init__(self):
+        self._data: List[PortfolioEntry] = []
+
+    def add_entry(self, category: str, content: str) -> PortfolioEntry:
+        entry = PortfolioEntry(category=category, content=content)
+        self._data.append(entry)
+        return entry
+
+    def get_all(self) -> List[PortfolioEntry]:
+        return self._data
+
+    def get_by_category(self, category: str) -> List[PortfolioEntry]:
+        return [
+            entry for entry in self._data
+            if entry.category.lower() == category.lower()
+        ]
+
+    def export_to_file(self, filename: str = "portfolio.txt"):
+        with open(filename, "w", encoding="utf-8") as f:
+            for entry in self._data:
+                f.write(f"{entry.category}: {entry.content}\n")
