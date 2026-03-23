@@ -1,0 +1,24 @@
+import { useEffect, useState } from "react";
+import { fetchPortfolio } from "../services/api";
+
+export const usePortfolio = () => {
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const res = await fetchPortfolio();
+      setData(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, loading };
+};
